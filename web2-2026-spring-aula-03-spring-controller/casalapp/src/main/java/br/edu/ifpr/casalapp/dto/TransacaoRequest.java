@@ -1,6 +1,3 @@
-public class TransacaoRequest {
-    
-    public record TransacaoController(String descricao, double valor, String tipo) {}
+package main.java.br.edu.ifpr.casalapp.dto;
 
-    
-}
+public record TransacaoRequest(String descricao, Double valor, String tipo) {}

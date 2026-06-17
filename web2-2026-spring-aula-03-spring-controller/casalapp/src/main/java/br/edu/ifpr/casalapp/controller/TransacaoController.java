@@ -11,13 +11,6 @@ import java.util.List;
 @RestController
 public class TransacaoController {
 
-    record TransacaoResponse(
-            int id,
-            String descricao,
-            double valor,
-            String tipo) {
-    }
-
     private int proximoId = 4;
 
     private final List<TransacaoResponse> transacoes = new ArrayList<>(List.of(
