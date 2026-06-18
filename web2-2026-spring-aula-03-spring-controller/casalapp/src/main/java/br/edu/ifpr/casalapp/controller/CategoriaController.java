@@ -10,7 +10,8 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/categorias")
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "http://127.0.0.1:5500")
+
 public class CategoriaController {
 
     private int proximoId = 4;
@@ -21,12 +22,12 @@ public class CategoriaController {
             new CategoriaResponse(3, "Saúde", "coração")
     ));
 
-    @GetMapping("/categorias")
+    @GetMapping()
     public List<CategoriaResponse> listarCategorias() {
         return categorias;
     }
 
-    @GetMapping("/categorias/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<CategoriaResponse> buscarCategoria(@PathVariable int id) {
         for (CategoriaResponse categoria : categorias) {
             if (categoria.id() == id) {
@@ -36,7 +37,7 @@ public class CategoriaController {
         return ResponseEntity.notFound().build();
     }
 
-    @PostMapping("/categorias")
+    @PostMapping()
     public ResponseEntity<CategoriaResponse> criarCategoria(@RequestBody CategoriaRequest request) {
         CategoriaResponse nova = new CategoriaResponse(proximoId, request.nome(), request.icone());
         proximoId++;
@@ -44,7 +45,7 @@ public class CategoriaController {
         return ResponseEntity.status(201).body(nova);
     }
 
-    @PutMapping("/categorias/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<CategoriaResponse> atualizarCategoria(
             @PathVariable int id,
             @RequestBody CategoriaRequest request) {
@@ -59,7 +60,7 @@ public class CategoriaController {
         return ResponseEntity.notFound().build();
     }
 
-    @PatchMapping("/categorias/{id}")
+    @PatchMapping("/{id}")
     public ResponseEntity<CategoriaResponse> atualizarParcialCategoria(
             @PathVariable int id,
             @RequestBody CategoriaRequest request) {
@@ -79,7 +80,7 @@ public class CategoriaController {
         return ResponseEntity.notFound().build();
     }
 
-    @DeleteMapping("/categorias/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletarCategoria(@PathVariable int id) {
         for (CategoriaResponse categoria : categorias) {
             if (categoria.id() == id) {

@@ -43,8 +43,6 @@ async function criarCategoria() {
             body: JSON.stringify(categoria)
         }
     );
-
-    carregarCategorias();
 }
 
 window.onload = carregarCategorias;
