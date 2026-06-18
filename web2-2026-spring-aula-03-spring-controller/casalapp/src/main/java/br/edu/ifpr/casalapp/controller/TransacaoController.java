@@ -1,4 +1,4 @@
-package main.java.br.edu.ifpr.casalapp.controller;
+package br.edu.ifpr.casalapp.controller;
 
 import br.edu.ifpr.casalapp.dto.TransacaoRequest;
 import br.edu.ifpr.casalapp.dto.TransacaoResponse;

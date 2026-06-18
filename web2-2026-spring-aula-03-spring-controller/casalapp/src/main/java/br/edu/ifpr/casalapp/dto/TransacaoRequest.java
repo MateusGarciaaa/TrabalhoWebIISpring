@@ -1,3 +1,3 @@
-package main.java.br.edu.ifpr.casalapp.dto;
+package br.edu.ifpr.casalapp.dto;
 
 public record TransacaoRequest(String descricao, Double valor, String tipo) {}
