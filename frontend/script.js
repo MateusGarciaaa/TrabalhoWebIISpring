@@ -1,48 +1,81 @@
-async function carregarCategorias() {
+const API_TRANSACOES = "http://localhost:8080/transacoes";
 
-    const response = await fetch(
-        "http://localhost:8080/categorias"
-    );
+async function carregarTransacoes() {
 
-    const categorias = await response.json();
+    const response = await fetch(API_TRANSACOES);
+    const transacoes = await response.json();
 
-    const lista = document.getElementById("lista");
-
+    const lista = document.getElementById("listaTransacoes");
     lista.innerHTML = "";
 
-    categorias.forEach(categoria => {
-
+    transacoes.forEach(transacao => {
         lista.innerHTML += `
             <li>
-                ${categoria.id}
-                - ${categoria.nome}
-                - ${categoria.icone}
+                ${transacao.id}
+                - ${transacao.descricao}
+                - R$ ${transacao.valor}
+                - ${transacao.tipo}
+                <button onclick="abrirModalEdicao(${transacao.id}, '${transacao.descricao}', ${transacao.valor}, '${transacao.tipo}')">
+                    Editar
+                </button>
             </li>
         `;
     });
 }
 
+async function criarTransacao() {
 
-async function criarCategoria() {
+    const descricao = document.getElementById("descricao").value;
+    const valor = parseFloat(document.getElementById("valor").value);
+    const tipo = document.getElementById("tipo").value;
 
-    const nome = document.getElementById("nome").value;
-    const icone = document.getElementById("icone").value;
+    const transacao = { descricao, valor, tipo };
 
-    const categoria = {
-        nome: nome,
-        icone: icone
-    };
+    await fetch(API_TRANSACOES, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(transacao)
+    });
 
-    await fetch(
-        "http://localhost:8080/categorias",
-        {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(categoria)
-        }
-    );
+    document.getElementById("descricao").value = "";
+    document.getElementById("valor").value = "";
+
+    carregarTransacoes();
 }
 
-window.onload = carregarCategorias;
+function abrirModalEdicao(id, descricao, valor, tipo) {
+    document.getElementById("editId").value = id;
+    document.getElementById("editDescricao").value = descricao;
+    document.getElementById("editValor").value = valor;
+    document.getElementById("editTipo").value = tipo;
+
+    document.getElementById("modalEdicao").style.display = "block";
+}
+
+function fecharModal() {
+    document.getElementById("modalEdicao").style.display = "none";
+}
+
+async function salvarEdicaoTransacao() {
+
+    const id = document.getElementById("editId").value;
+    const descricao = document.getElementById("editDescricao").value;
+    const valor = parseFloat(document.getElementById("editValor").value);
+    const tipo = document.getElementById("editTipo").value;
+
+    const transacao = { descricao, valor, tipo };
+
+    await fetch(`${API_TRANSACOES}/${id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(transacao)
+    });
+
+    fecharModal();
+    carregarTransacoes();
+}
+
+window.onload = function () {
+    carregarCategorias();
+    carregarTransacoes();
+};

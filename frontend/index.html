@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Categorias</title>
+    <title>CasalApp</title>
 </head>
 <body>
 
@@ -10,17 +10,49 @@
     <input id="nome" placeholder="Nome">
     <input id="icone" placeholder="Ícone">
 
-    <button onclick="criarCategoria()">
-        Salvar
-    </button>
-
-    <button onclick="carregarCategorias()">
-        Carregar
-    </button>
+    <button onclick="criarCategoria()">Salvar</button>
+    <button onclick="carregarCategorias()">Carregar</button>
 
     <hr>
 
     <ul id="lista"></ul>
+
+    <hr>
+
+    <h1>Transações</h1>
+
+    <input id="descricao" placeholder="Descrição">
+    <input id="valor" type="number" placeholder="Valor">
+    <select id="tipo">
+        <option value="DESPESA">Despesa</option>
+        <option value="RECEITA">Receita</option>
+    </select>
+
+    <button onclick="criarTransacao()">Salvar</button>
+    <button onclick="carregarTransacoes()">Carregar</button>
+
+    <hr>
+
+    <ul id="listaTransacoes"></ul>
+
+    <!-- Modal de edição -->
+    <div id="modalEdicao" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5);">
+        <div style="background:white; width:300px; margin:100px auto; padding:20px;">
+            <h3>Editar Transação</h3>
+
+            <input type="hidden" id="editId">
+
+            <input id="editDescricao" placeholder="Descrição"><br><br>
+            <input id="editValor" type="number" placeholder="Valor"><br><br>
+            <select id="editTipo">
+                <option value="DESPESA">Despesa</option>
+                <option value="RECEITA">Receita</option>
+            </select><br><br>
+
+            <button onclick="salvarEdicaoTransacao()">Salvar</button>
+            <button onclick="fecharModal()">Cancelar</button>
+        </div>
+    </div>
 
     <script src="script.js"></script>
 
