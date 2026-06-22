@@ -1,4 +1,25 @@
 const API_TRANSACOES = "http://localhost:8080/transacoes";
+const API_CATEGORIAS = "http://localhost:8080/categorias";
+
+
+async function criarTransacao() {
+
+    const descricao = document.getElementById("descricao").value;
+    const valor = parseFloat(document.getElementById("valor").value);
+    const tipo = document.getElementById("tipo").value;
+
+    const transacao = { descricao, valor, tipo };
+
+    await fetch(API_TRANSACOES, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(transacao)
+    });
+
+    document.getElementById("descricao").value = "";
+    document.getElementById("valor").value = "";
+
+}
 
 async function carregarTransacoes() {
 
@@ -23,24 +44,51 @@ async function carregarTransacoes() {
     });
 }
 
-async function criarTransacao() {
+async function carregarCategorias() {
 
-    const descricao = document.getElementById("descricao").value;
-    const valor = parseFloat(document.getElementById("valor").value);
-    const tipo = document.getElementById("tipo").value;
+    const response = await fetch(API_CATEGORIAS);
 
-    const transacao = { descricao, valor, tipo };
+    const categorias = await response.json();
 
-    await fetch(API_TRANSACOES, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(transacao)
+    const lista = document.getElementById("lista");
+
+    lista.innerHTML = "";
+
+    categorias.forEach(categoria => {
+
+        lista.innerHTML += `
+            <li>
+                ${categoria.id}
+                - ${categoria.nome}
+                - ${categoria.icone}
+            </li>
+        `;
     });
+}
 
-    document.getElementById("descricao").value = "";
-    document.getElementById("valor").value = "";
+async function criarCategoria() {
 
-    carregarTransacoes();
+    const nome = document.getElementById("nome").value;
+    const icone = document.getElementById("icone").value;
+
+    const categoria = {
+        nome: nome,
+        icone: icone
+    };
+
+    await fetch(
+        API_CATEGORIAS,{
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(categoria)
+        }
+    );
+
+
+    document.getElementById("nome").value = "";
+    document.getElementById("icone").value = "";
 }
 
 function abrirModalEdicao(id, descricao, valor, tipo) {
@@ -72,10 +120,6 @@ async function salvarEdicaoTransacao() {
     });
 
     fecharModal();
-    carregarTransacoes();
 }
 
-window.onload = function () {
-    carregarCategorias();
-    carregarTransacoes();
-};
+window.onload = function () {};
