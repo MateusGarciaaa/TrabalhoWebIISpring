@@ -118,7 +118,7 @@ async function salvarEdicaoTransacao() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(transacao)
     });
-
+    carregarTransacoes();
     fecharModal();
 }
 
